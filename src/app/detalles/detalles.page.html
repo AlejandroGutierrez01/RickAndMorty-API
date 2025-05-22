@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ character?.name }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="character" class="ion-padding">
+
+  <ion-card>
+    <img [src]="character.image" />
+    <ion-card-header>
+      <ion-card-title>{{ character.name }}</ion-card-title>
+      <ion-card-subtitle>{{ character.species }} - {{ character.status }}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Género:</strong> {{ character.gender }}</p>
+      <p><strong>Origen:</strong> {{ character.origin.name }}</p>
+      <p><strong>Ubicación actual:</strong> {{ character.location.name }}</p>
+      <p><strong>Estado Actual:</strong> {{ character.status }}</p>
+      <p><strong>Url:</strong> <a [href]="character.url" target="_blank">{{ character.url }}</a></p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-item>
+    <ion-label position="stacked">Comentario sobre {{ character.name }}</ion-label>
+    <ion-textarea [(ngModel)]="comment" placeholder="Escribe tu comentario..."></ion-textarea>
+  </ion-item>
+  <ion-button expand="full" (click)="saveComment()">Guardar comentario</ion-button>
+
+  <ion-card *ngIf="savedComment">
+    <ion-card-header>
+      <ion-card-subtitle>Tu comentario guardado:</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <p>{{ savedComment }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-list *ngIf="comments.length > 0; else noComments">
+    <ion-list-header>
+      <ion-label>Comentarios de {{ character.name }}</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let comment of comments">
+      <ion-label>
+        <p>{{ comment.comment }}</p>
+        <small>{{ comment.timestamp | date: 'medium' }}</small>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ng-template #noComments>
+    <p>No hay comentarios para este personaje.</p>
+  </ng-template>
+
+</ion-content>

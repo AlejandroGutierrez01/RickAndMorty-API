@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Rick and Morty Characters</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- 🔍 Barra de búsqueda -->
+  <ion-searchbar
+    [(ngModel)]="searchQuery"
+    (ionInput)="onSearchChange()"
+    placeholder="Buscar personaje"
+    debounce="500">
+  </ion-searchbar>
+
+  <!-- 📋 Lista de personajes -->
+  <ion-list>
+    <ion-item *ngFor="let character of characters" (click)="goToDetails(character.id)">
+      <ion-avatar slot="start">
+        <img [src]="getImageURL(character)" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ character.name }}</h2>
+        <p>{{ character.species }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- 🔁 Scroll infinito -->
+  <ion-infinite-scroll (ionInfinite)="loadCharacters($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>
